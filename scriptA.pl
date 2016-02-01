@@ -19,7 +19,6 @@ while ( ! $exit ) {
   
   if ( $input =~ /\S/ ){
   print $input;
-  $exit = 1;
   }
   elsif ( $input =~ /\s{2,}/  ) {
     print color('red');
