@@ -31,9 +31,7 @@ while ( ! $exit ) {
     }
   }
   elsif ( $input =~ /\D+/ ) {
-    print color('red');
-    print "ERROR: ";
-    print color('reset');
+    print color('red')."ERROR: ".color('reset');
     print "Only numbers are accepted!\n"
   }
   else {
