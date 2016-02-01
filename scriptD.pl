@@ -2,7 +2,7 @@
 ################## METADATA ##################
 # NAME: Johan Olsson
 # USERNAME: d15johol
-# COURSE: IT341G VT16: Scriptprogrammering G1F, 7.5hp
+# COURSE: IT341G
 # ASSIGNMENT: Script D
 # DATE OF LAST CHANGE: 2016-02-01
 ##############################################
