@@ -15,19 +15,19 @@ my $f = "alphabet.txt";
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @keys;
 while( my $line = <FH> ) {
-    chomp $line;
-    push @keys, $line;
+  chomp $line;
+  push @keys, $line;
 }
 close FH or die "Can't close $f: $!";
 
 my @values;
 for my $i (0..$#keys) {
-    $values[$i] = ($i + 1);
+  $values[$i] = ($i + 1);
 }
 
 my %hash;
 @hash{@keys} = @values;
 
 foreach my $key (sort keys %hash) {
-    printf $key.":".$hash{$key}."\n";
+  printf $key.":".$hash{$key}."\n";
 }
