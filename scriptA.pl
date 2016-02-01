@@ -19,12 +19,10 @@ while ( ! $exit ) {
   chomp $input;
   
   if ( $input =~ /\S/ ){
-  print $input;
+  print "$input\n";
   }
   elsif ( $input =~ /\s/  ) {
-    print color('red');
-    print "ERROR: ";
-    print color('reset');
+    print color('red')."ERROR: ".color('reset');
     print "Only whitespace detected!\n"
   }
   else {
