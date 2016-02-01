@@ -16,11 +16,12 @@ my $exit = 0;
 while ( ! $exit ) {
   print "Input text: ";
   my $input = <STDIN>;
+  chomp $input;
   
   if ( $input =~ /\S/ ){
   print $input;
   }
-  elsif ( $input =~ /\s{2,}/  ) {
+  elsif ( $input =~ /\s/  ) {
     print color('red');
     print "ERROR: ";
     print color('reset');
