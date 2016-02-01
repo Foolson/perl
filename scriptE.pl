@@ -28,8 +28,6 @@ for my $i (0..$#keys) {
 my %hash;
 @hash{@keys} = @values;
 
-@keys = sort { $a cmp $b } keys %hash;
-
-foreach my $key ( @keys ) {
+foreach my $key (sort keys %hash) {
     printf $key.":".$hash{$key}."\n";
 }
