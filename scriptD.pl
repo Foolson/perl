@@ -14,7 +14,7 @@ my $file = "users.csv";
 my $newFile = "sortedUsers.csv";
 
 open FH, "<", "$file" or die "Can't open $file: $!";
-my @users = split /[\W]/, <FH>;
+my @users = split /,/, <FH>;
 close FH or die "Can't close $file: $!";
 
 @users = sort { lc($a) cmp lc($b) } @users;
