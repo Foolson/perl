@@ -9,10 +9,25 @@
 
 use warnings;
 use strict;
+use Term::ANSIColor;
 
-print "Input text: ";
-my $input = <STDIN>;
+my $exit = 0;
 
-if ( $input =~ /./ ){
-print $input;
+while ( ! $exit ) {
+  print "Input text: ";
+  my $input = <STDIN>;
+  
+  if ( $input =~ /\S/ ){
+  print $input;
+  $exit = 1;
+  }
+  elsif ( $input =~ /\s{2,}/  ) {
+    print color('red');
+    print "ERROR: ";
+    print color('reset');
+    print "Only whitespace detected\n"
+  }
+  else {
+    $exit = 1;
+  }
 }
