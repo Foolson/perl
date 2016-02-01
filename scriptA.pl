@@ -25,7 +25,7 @@ while ( ! $exit ) {
     print color('red');
     print "ERROR: ";
     print color('reset');
-    print "Only whitespace detected\n"
+    print "Only whitespace detected!\n"
   }
   else {
     $exit = 1;
