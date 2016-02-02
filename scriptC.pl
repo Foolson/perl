@@ -14,8 +14,8 @@ my $f = "alphabet.txt";
 
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @alphabet;
-while( <FH> ) {
-    push @alphabet, $_;
+while( my $line = <FH> ) {
+    push @alphabet, $line;
 }
 close FH or die "Can't close $f: $!";
 
