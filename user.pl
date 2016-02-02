@@ -9,4 +9,4 @@ my @last = `last $user`;
 
 my @logins = @last;
 
-print "$user - $#logins"
+print "$user - $#logins\n"
