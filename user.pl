@@ -19,8 +19,6 @@ close FH or die "Can't close $f: $!";
 my $firstUID = $UID[0];
 my $lastUID = $UID[1];
 
-#my @passwd = `getent passwd | awk -F: '\($firstUID <= \$3\) && \(\$3 <= $lastUID\) {print \$1}'`;
-
 my @passwd;
 $f = "/etc/passwd";
 open FH, "<", "$f" or die "Can't open $f: $!";
@@ -32,6 +30,7 @@ while( my $line = <FH> ) {
   }
 }
 close FH or die "Can't close $f: $!";
+
 my @users = @passwd;
 chomp @users;
 
@@ -46,7 +45,6 @@ for my $i (0 ... $#users) {
 foreach my $key (sort {lc $a cmp lc $b} keys %usersLogins) {
   print $key.":".$usersLogins{$key}."\n";
 }
-print "\n";
 foreach my $key (sort { $usersLogins{$b} <=> $usersLogins{$a} or $a cmp $b } keys %usersLogins) {
   print $key.":".$usersLogins{$key}."\n";
 }
