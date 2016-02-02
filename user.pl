@@ -11,7 +11,7 @@ my @last = `last $user`;
 
 my @logins = @last;
 
-print "$user - $#logins\n"
+print "$user - $#logins\n";
 
 my $f;
 
