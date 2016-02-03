@@ -55,7 +55,11 @@ for my $i (0...$#users) {
   chomp @grep;
   @passwd{$users[$i]} = $grep[0];
 }
-
+my $days = 1;
+my @epochSeconds = `date +%s`;
+my $epochDays = ($epochSeconds[0] / 86400);
 foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
-  print $key.":".$passwd{$key}."\n";
+  if ( $passwd{$key} < ($epochDays - $days)) {
+    print "$key\n";
+  }
 }
