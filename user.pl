@@ -48,3 +48,14 @@ foreach my $key (sort {lc $a cmp lc $b} keys %usersLogins) {
 foreach my $key (sort { $usersLogins{$b} <=> $usersLogins{$a} or $a cmp $b } keys %usersLogins) {
   print $key.":".$usersLogins{$key}."\n";
 }
+
+my %passwd;
+for my $i (0...$#users) {
+  my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
+  chomp @grep;
+  @passwd{$users[$i]} = $grep[0];
+}
+
+foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
+  print $key.":".$passwd{$key}."\n";
+}
