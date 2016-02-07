@@ -69,6 +69,6 @@ for my $i (0...$#users) {
 
   my @match = ($du[0] =~ /^\d+/g);
 
-  print "$users[$i]".":"."$match[0]\n";
+  print "$users[$i]".":"."$match[0]."MB"."\n";
 
 }
