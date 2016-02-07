@@ -63,12 +63,15 @@ foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
     print "$key\n";
   }
 }
+
 for my $i (0...$#users) {
 
-  my @du = `du -m /home/$users[$i]`;
+  my @du = `du -b /home/$users[$i]`;
 
   my @match = ($du[0] =~ /^\d+/g);
+  
+  my $schlager = ($match[0] / 9441722);
 
-  print "$users[$i]".":"."$match[0]"."MB"."\n";
+  print "$users[$i]".":"."$schlager"."MiB"."\n";
 
 }
