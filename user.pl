@@ -5,6 +5,7 @@ use strict;
 
 my $f;
 
+# Get min and max UID for regular users 
 $f = "/etc/login.defs";
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @UID;
@@ -19,6 +20,7 @@ close FH or die "Can't close $f: $!";
 my $firstUID = $UID[0];
 my $lastUID = $UID[1];
 
+# Get list of regular users from /etc/passwd
 my @passwd;
 $f = "/etc/passwd";
 open FH, "<", "$f" or die "Can't open $f: $!";
@@ -34,6 +36,7 @@ close FH or die "Can't close $f: $!";
 my @users = @passwd;
 chomp @users;
 
+# Create hash with regular users as keys and their number of logins as values
 my %userLogins;
 for my $i (0 ... $#users) {
   my $user = $users[$i];
@@ -41,21 +44,25 @@ for my $i (0 ... $#users) {
   my @logins = @last;
   $userLogins{$user} = ($#logins - 1);
 }
-print %userLogins."\n";
+print %userLogins;
+print "\n";
 
-my %passwd;
-my $days = 13;
+# List of users and their password age if the password has not been updated within the latest $days
+my %passwordAge;
+my $days = 10;
 my @epochSeconds = `date +%s`;
 my $epochDays = ($epochSeconds[0] / 86400);
 for my $i (0...$#users) {
   my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
   chomp @grep;
-  if ( $passwd{$users[$i]} < ($epochDays - $days)) {
-    @passwd{$users[$i]} = $grep[0];
+  if ( $grep[0] < ($epochDays - $days)) {
+    @passwordAge{$users[$i]} = $grep[0];
   }
 }
-print %passwd."\n";
+print %passwordAge;
+print "\n";
 
+# Add users and their storage size to a hash if it exceeds $size
 my %userStorage;
 my $size = 0;
 for my $i (0...$#users) {
@@ -68,4 +75,5 @@ for my $i (0...$#users) {
     $userStorage{$users[$i]}=$mebibyte;
   }
 }
-print %userStorage."\n";
+print %userStorage;
+print "\n";
