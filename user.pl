@@ -41,28 +41,20 @@ for my $i (0 ... $#users) {
   my @logins = @last;
   $usersLogins{$user} = ($#logins - 1);
 }
-
-foreach my $key (sort {lc $a cmp lc $b} keys %usersLogins) {
-  print $key.":".$usersLogins{$key}."\n";
-}
-foreach my $key (sort { $usersLogins{$b} <=> $usersLogins{$a} or $a cmp $b } keys %usersLogins) {
-  print $key.":".$usersLogins{$key}."\n";
-}
+print %userLogins."\n";
 
 my %passwd;
-for my $i (0...$#users) {
-  my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
-  chomp @grep;
-  @passwd{$users[$i]} = $grep[0];
-}
 my $days = 13;
 my @epochSeconds = `date +%s`;
 my $epochDays = ($epochSeconds[0] / 86400);
-foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
-  if ( $passwd{$key} < ($epochDays - $days)) {
-    print "$key\n";
+for my $i (0...$#users) {
+  my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
+  chomp @grep;
+  if ( $passwd{$users[$i]} < ($epochDays - $days)) {
+    @passwd{$users[$i]} = $grep[0];
   }
 }
+print %passwd."\n";
 
 my %userStorage;
 my $size = 0;
@@ -76,6 +68,4 @@ for my $i (0...$#users) {
     $userStorage{$users[$i]}=$mebibyte;
   }
 }
-foreach my $key (sort {lc $a cmp lc $b} keys %userStorage) {
-  print $key.":".$userStorage{$key}."\n";
-}
+print %userStorage."\n";
