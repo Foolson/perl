@@ -34,14 +34,14 @@ close FH or die "Can't close $f: $!";
 my @users = @passwd;
 chomp @users;
 
-my %usersLogins;
+my %userLogins;
 for my $i (0 ... $#users) {
   my $user = $users[$i];
   my @last = `last $user`;
   my @logins = @last;
-  $usersLogins{$user} = ($#logins - 1);
+  $userLogins{$user} = ($#logins - 1);
 }
-print %userLogins;
+print %userLogins."\n";
 
 my %passwd;
 my $days = 13;
@@ -54,7 +54,7 @@ for my $i (0...$#users) {
     @passwd{$users[$i]} = $grep[0];
   }
 }
-print %passwd;
+print %passwd."\n";
 
 my %userStorage;
 my $size = 0;
@@ -68,4 +68,4 @@ for my $i (0...$#users) {
     $userStorage{$users[$i]}=$mebibyte;
   }
 }
-print %userStorage;
+print %userStorage."\n";
