@@ -47,16 +47,16 @@ for my $i (0 ... $#users) {
 print %userLogins;
 print "\n";
 
-# List of users and their password age if the password has not been updated within the latest $days
+# Create hash with users and the number of days since password change and only add users if days exeeds $days
 my %passwordAge;
-my $days = 10;
+my $days = 12;
 my @epochSeconds = `date +%s`;
 my $epochDays = ($epochSeconds[0] / 86400);
 for my $i (0...$#users) {
   my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
   chomp @grep;
   if ( $grep[0] < ($epochDays - $days)) {
-    @passwordAge{$users[$i]} = $grep[0];
+    @passwordAge{$users[$i]} = int($epochDays - $grep[0]);
   }
 }
 print %passwordAge;
@@ -71,7 +71,7 @@ for my $i (0...$#users) {
   my @match = ($du[0] =~ /^\d+/g);
   
   my $mebibyte = int($match[0] / 1048576);
-  if ( $mebibyte > $size ) {
+  if ( $mebibyte >= $size ) {
     $userStorage{$users[$i]}=$mebibyte;
   }
 }
