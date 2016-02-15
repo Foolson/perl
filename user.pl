@@ -55,7 +55,7 @@ for my $i (0...$#users) {
   chomp @grep;
   @passwd{$users[$i]} = $grep[0];
 }
-my $days = 1;
+my $days = 13;
 my @epochSeconds = `date +%s`;
 my $epochDays = ($epochSeconds[0] / 86400);
 foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
@@ -64,14 +64,18 @@ foreach my $key (sort {lc $a cmp lc $b} keys %passwd) {
   }
 }
 
+my %userStorage;
+my $size = 0;
 for my $i (0...$#users) {
-
   my @du = `du -b /home/$users[$i]`;
 
   my @match = ($du[0] =~ /^\d+/g);
   
-  my $schlager = ($match[0] / 9441722);
-
-  print "$users[$i]".":"."$schlager"."MiB"."\n";
-
+  my $mebibyte = int($match[0] / 1048576);
+  if ( $mebibyte > $size ) {
+    $userStorage{$users[$i]}=$mebibyte;
+  }
+}
+foreach my $key (sort {lc $a cmp lc $b} keys %userStorage) {
+  print $key.":".$userStorage{$key}."\n";
 }
