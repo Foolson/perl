@@ -41,7 +41,7 @@ for my $i (0 ... $#users) {
   my @logins = @last;
   $usersLogins{$user} = ($#logins - 1);
 }
-print %userLogins."\n";
+print %userLogins;
 
 my %passwd;
 my $days = 13;
@@ -54,7 +54,7 @@ for my $i (0...$#users) {
     @passwd{$users[$i]} = $grep[0];
   }
 }
-print %passwd."\n";
+print %passwd;
 
 my %userStorage;
 my $size = 0;
@@ -68,4 +68,4 @@ for my $i (0...$#users) {
     $userStorage{$users[$i]}=$mebibyte;
   }
 }
-print %userStorage."\n";
+print %userStorage;
