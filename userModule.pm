@@ -74,13 +74,11 @@ sub userStorage {
   for my $i (0...$#users) {
     my @grepPasswd = `grep $users[$i] /etc/passwd | cut -d: -f6`;
     chomp @grepPasswd;
-    my @du = `du -b $grepPasswd[0]`;
-  
-    my @match = ($du[0] =~ /^\d+/g);
-    
-    my $mebibyte = int($match[0] / 1048576);
+    my @du = `du -b $grepPasswd[0]` =~ m|(\d+)(?=\s+$grepPasswd[0]$)|g;
+
+    my $mebibyte = int($du[0] / 1048576);
     if ( $mebibyte >= $size ) {
-      $userStorage{$users[$i]}=$mebibyte;
+        $userStorage{$users[$i]}=$mebibyte;
     }
   }
   return %userStorage;
