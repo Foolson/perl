@@ -1,6 +1,7 @@
+#!/usr/bin/perl
+
 use warnings;
 use strict;
-
 use userModule;
 
 print "\# User Storage\n";
