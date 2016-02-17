@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-
+package userModule;
 use warnings;
 use strict;
 
@@ -51,7 +51,7 @@ sub userLogins {
 # Create hash with users and the number of days since password change and only add users if days exeeds $days
 sub passwordAge {
   my %passwordAge;
-  my $days = 12;
+  my $days = shift;
   my @epochSeconds = `date +%s`;
   my $epochDays = ($epochSeconds[0] / 86400);
   for my $i (0...$#users) {
@@ -68,7 +68,7 @@ sub passwordAge {
 
 sub userStorage {
   my %userStorage;
-  my $size = 0;
+  my $size = shift;
   for my $i (0...$#users) {
     my @du = `du -b /home/$users[$i]`;
   
@@ -81,3 +81,4 @@ sub userStorage {
   }
   return %userStorage;
 }
+1;
