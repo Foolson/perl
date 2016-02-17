@@ -57,10 +57,10 @@ sub passwordAge {
   my @epochSeconds = `date +%s`;
   my $epochDays = ($epochSeconds[0] / 86400);
   for my $i (0...$#users) {
-    my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
-    chomp @grep;
-    if ( $grep[0] < ($epochDays - $days)) {
-      @passwordAge{$users[$i]} = int($epochDays - $grep[0]);
+    my @grepShadow = `grep $users[$i] /etc/shadow | cut -d: -f3`;
+    chomp @grepShadow;
+    if ( $grepShadow[0] < ($epochDays - $days)) {
+      @passwordAge{$users[$i]} = int($epochDays - $grepShadow[0]);
     }
   }
   return %passwordAge;
@@ -72,7 +72,9 @@ sub userStorage {
   my %userStorage;
   my $size = shift;
   for my $i (0...$#users) {
-    my @du = `du -b /home/$users[$i]`;
+    my @grepPasswd = `grep $users[$i] /etc/passwd | cut -d: -f6`;
+    chomp @grepPasswd;
+    my @du = `du -b $grepPasswd[0]`;
   
     my @match = ($du[0] =~ /^\d+/g);
     
