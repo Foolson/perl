@@ -5,7 +5,7 @@ use strict;
 
 my $f;
 
-# Get min and max UID for regular users 
+# Get min and max UID for regular users
 $f = "/etc/login.defs";
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @UID;
@@ -37,43 +37,47 @@ my @users = @passwd;
 chomp @users;
 
 # Create hash with regular users as keys and their number of logins as values
-my %userLogins;
-for my $i (0 ... $#users) {
-  my $user = $users[$i];
-  my @last = `last $user`;
-  my @logins = @last;
-  $userLogins{$user} = ($#logins - 1);
+sub userLogins {
+  my %userLogins;
+  for my $i (0 ... $#users) {
+    my $user = $users[$i];
+    my @last = `last $user`;
+    my @logins = @last;
+    $userLogins{$user} = ($#logins - 1);
+  }
+  return %userLogins;
 }
-print %userLogins;
-print "\n";
 
 # Create hash with users and the number of days since password change and only add users if days exeeds $days
-my %passwordAge;
-my $days = 12;
-my @epochSeconds = `date +%s`;
-my $epochDays = ($epochSeconds[0] / 86400);
-for my $i (0...$#users) {
-  my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
-  chomp @grep;
-  if ( $grep[0] < ($epochDays - $days)) {
-    @passwordAge{$users[$i]} = int($epochDays - $grep[0]);
+sub passwordAge {
+  my %passwordAge;
+  my $days = 12;
+  my @epochSeconds = `date +%s`;
+  my $epochDays = ($epochSeconds[0] / 86400);
+  for my $i (0...$#users) {
+    my @grep = `grep $users[$i] /etc/shadow | cut -d: -f3`;
+    chomp @grep;
+    if ( $grep[0] < ($epochDays - $days)) {
+      @passwordAge{$users[$i]} = int($epochDays - $grep[0]);
+    }
   }
+  return %passwordAge;
 }
-print %passwordAge;
-print "\n";
 
 # Add users and their storage size to a hash if it exceeds $size
-my %userStorage;
-my $size = 0;
-for my $i (0...$#users) {
-  my @du = `du -b /home/$users[$i]`;
 
-  my @match = ($du[0] =~ /^\d+/g);
+sub userStorage {
+  my %userStorage;
+  my $size = 0;
+  for my $i (0...$#users) {
+    my @du = `du -b /home/$users[$i]`;
   
-  my $mebibyte = int($match[0] / 1048576);
-  if ( $mebibyte >= $size ) {
-    $userStorage{$users[$i]}=$mebibyte;
+    my @match = ($du[0] =~ /^\d+/g);
+    
+    my $mebibyte = int($match[0] / 1048576);
+    if ( $mebibyte >= $size ) {
+      $userStorage{$users[$i]}=$mebibyte;
+    }
   }
+  return %userStorage;
 }
-print %userStorage;
-print "\n";
