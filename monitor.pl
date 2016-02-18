@@ -28,4 +28,3 @@ print "\n";
 print "\# System network\n";
 my @network = systemModule::network();
 print Dumper @network;
-print "\n";
