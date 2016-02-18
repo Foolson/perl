@@ -4,14 +4,33 @@ package systemModule;
 
 use warnings;
 use strict;
+use Data::Dumper;
 # Start
-my @netstat = `netstat -anptu` =~ /(tcp|tcp6|udp|udp6)\s+/g;
+my @carola;
+my @netstat = `netstat -anptu`;
 chomp @netstat;
+for my $i (0...$#netstat){
+  my $ipVersion;
+  my @match = $netstat[$i] =~ /^(\w+).+\d+\s{1}(.+):(\d+)\s+.+:(?:\*|\d+)\s+(?:\w+\s+)?(?:\-|(\d+)\/)(\S+[ ]?\S+)?(?:\s{2,})?/g;
+  if ( length $match[0] ) {
+    my $test = $match[1] =~ /[:]/;
+    if ( $test == 1 ) {
+      $ipVersion = 6;
+    }
+    else {
+      $ipVersion = 4;
+    }
 
-my @test;
-my @test2;
-for my $i (0...$#netstat) {
-  print "$netstat[$i]\n";
+    push @carola, {
+      protocol        => "$match[0]",
+      ipVersion       => "$ipVersion",
+      portNumber      => "$match[2]",
+      listeningDevice => "$match[1]",
+      processId       => "$match[3]",
+      processName     => "$match[4]"
+    };
+  }
 }
+print Dumper @carola;
 # End
 1;
