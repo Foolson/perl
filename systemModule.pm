@@ -5,7 +5,6 @@ package systemModule;
 use warnings;
 use strict;
 
-# Start
 sub network{
   my @network;
   my @netstat = `netstat -plntu`;
@@ -29,5 +28,4 @@ sub network{
   }
   return @network;
 }
-# End
 1;
