@@ -8,7 +8,7 @@ use strict;
 # Start
 sub network{
   my @network;
-  my @netstat = `netstat -anptu`;
+  my @netstat = `netstat -plntu`;
   chomp @netstat;
   for my $i (0...$#netstat){
     my $ipVersion;
@@ -16,10 +16,10 @@ sub network{
     if ( length $match[0] ) {
       my $ip = $match[1] =~ /[:]/;
       if ( $ip == 1 ) {
-        $ipVersion = 6;
+        $ipVersion = "IPv6";
       }
       else {
-        $ipVersion = 4;
+        $ipVersion = "IPv4";
       }
       push @network, {
         protocol        => "$match[0]",
