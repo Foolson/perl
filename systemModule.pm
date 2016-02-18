@@ -11,15 +11,11 @@ sub network{
   my @netstat = `netstat -plntu`;
   chomp @netstat;
   for my $i (0...$#netstat){
-    my $ipVersion;
-    my @match = $netstat[$i] =~ /^(\w+).+\d+\s{1}(.+):(\d+)\s+.+:(?:\*|\d+)\s+(?:\w+\s+)?(?:\-|(\d+)\/)(\S+[ ]?\S+)?(?:\s{2,})?/g;
+    my $ipVersion = "4";
+    my @match = $netstat[$i] =~ /^(\w{3}).+\d+\s(.+):(\d+).+\s(\d+)\/(\S+)/g;
     if ( length $match[0] ) {
-      my $ip = $match[1] =~ /[:]/;
-      if ( $ip == 1 ) {
-        $ipVersion = "IPv6";
-      }
-      else {
-        $ipVersion = "IPv4";
+      if ( $match[1] =~ /:/ ) {
+        $ipVersion = "6";
       }
       push @network, {
         protocol        => "$match[0]",
