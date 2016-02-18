@@ -8,14 +8,14 @@ use Data::Dumper;
 
 print "\# User Storage\n";
 print "Size: ";
-my $size = <>;
+my $size = <STDIN>;
 my %userStorage = userModule::userStorage($size);
 print Dumper %userStorage;
 print "\n";
 
 print "\# Password Age\n";
 print "Days: ";
-my $days = <>;
+my $days = <STDIN>;
 my %passwordAge = userModule::passwordAge($days);
 print Dumper %passwordAge;
 print "\n";
