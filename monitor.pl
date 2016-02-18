@@ -3,23 +3,29 @@
 use warnings;
 use strict;
 use userModule;
-#use systemModule;
+use systemModule;
+use Data::Dumper;
 
 print "\# User Storage\n";
 print "Size: ";
 my $size = <>;
 my %userStorage = userModule::userStorage($size);
-print %userStorage;
-print "\n\n";
+print Dumper %userStorage;
+print "\n";
 
 print "\# Password Age\n";
 print "Days: ";
 my $days = <>;
 my %passwordAge = userModule::passwordAge($days);
-print %passwordAge;
-print "\n\n";
+print Dumper %passwordAge;
+print "\n";
 
 print "\# User Logins\n";
 my %userLogins = userModule::userLogins();
-print %userLogins;
+print Dumper %userLogins;
+print "\n";
+
+print "\# System network\n";
+my @network = systemModule::network();
+print Dumper @network;
 print "\n";
