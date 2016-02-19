@@ -4,6 +4,7 @@ package userModule;
 
 use warnings;
 use strict;
+use Math::Round;
 
 my $f;
 
@@ -61,7 +62,7 @@ sub passwordAge {
     chomp @grepShadow;
     if ( $grepShadow[0] ne "") {
       if ( $grepShadow[0] < ($epochDays - $days)) {
-        @passwordAge{$users[$i]} = int($epochDays - $grepShadow[0]);
+        @passwordAge{$users[$i]} = round($epochDays - $grepShadow[0]);
       }
     }
   }
@@ -78,7 +79,7 @@ sub userStorage {
     chomp @grepPasswd;
     my @du = `du -b $grepPasswd[0]` =~ m|(\d+)(?=\s+$grepPasswd[0]$)|g;
 
-    my $mebibyte = int($du[0] / 1048576);
+    my $mebibyte = round($du[0] / 1048576);
     if ( $mebibyte >= $size ) {
         $userStorage{$users[$i]}=$mebibyte;
     }
