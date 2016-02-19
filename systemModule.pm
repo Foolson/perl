@@ -4,28 +4,45 @@ package systemModule;
 
 use warnings;
 use strict;
+use List::Compare;
 
 sub network{
+  my $query = shift;
+  my @queries = split / /, $query;
   my @network;
   my @netstat = `netstat -plntu`;
   chomp @netstat;
   for my $i (0...$#netstat){
-    my $ipVersion = "4";
     my @match = $netstat[$i] =~ /^(\w{3}).+\d+\s(.+):(\d+).+\s(\d+)\/(\S+)/g;
     if ( length $match[0] ) {
       if ( $match[1] =~ /:/ ) {
-        $ipVersion = "6";
+        push @match, "ipv6";
       }
-      push @network, {
-        protocol        => "$match[0]",
-        ipVersion       => "$ipVersion",
-        portNumber      => "$match[2]",
-        listeningDevice => "$match[1]",
-        processId       => "$match[3]",
-        processName     => "$match[4]"
-      };
+      else {
+        push @match, "ipv4";
+      }
+      my $lc = List::Compare->new(\@queries, \@match);
+      if ( $lc->is_LsubsetR ) {
+        push @network, {
+          protocol         => "$match[0]",
+          ipVersion        => "$match[5]",
+          portNumber       => "$match[2]",
+          listeningDevice  => "$match[1]",
+          processId        => "$match[3]",
+          processName      => "$match[4]"
+        };
+      }
     }
   }
   return @network;
+}
+sub serviceStatus {
+  my $service = shift;
+  my $serviceStatus = 0;
+  my @systemctl = `systemctl status $service`;
+  if ( $systemctl[2] =~ /Active: active/ ) {
+    $serviceStatus = 1;
+  }
+  return $serviceStatus;
 }
 1;
