@@ -7,8 +7,7 @@ use strict;
 use List::Compare;
 
 sub network{
-  my $query = shift;
-  my @queries = split / /, $query;
+  my @query = split / /, shift;
   my @network;
   my @netstat = `netstat -plntu`;
   chomp @netstat;
@@ -21,7 +20,7 @@ sub network{
       else {
         push @match, "ipv4";
       }
-      my $lc = List::Compare->new(\@queries, \@match);
+      my $lc = List::Compare->new(\@query, \@match);
       if ( $lc->is_LsubsetR ) {
         push @network, {
           protocol         => "$match[0]",
