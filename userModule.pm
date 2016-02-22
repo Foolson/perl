@@ -61,7 +61,7 @@ sub passwordAge {
     my @grepShadow = `grep $users[$i] /etc/shadow | cut -d: -f3`;
     chomp @grepShadow;
     if ( $grepShadow[0] ne "") {
-      if ( $grepShadow[0] < ($epochDays - $days)) {
+      if ( $grepShadow[0] > ($epochDays - $days)) {
         @passwordAge{$users[$i]} = round($epochDays - $grepShadow[0]);
       }
     }
