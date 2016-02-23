@@ -48,25 +48,27 @@ sub userLogins {
     my @logins = @last;
     $userLogins{$user} = ($#logins - 1);
   }
-  return %userLogins;
+  return \%userLogins;
 }
 
 # Create hash with users and the number of days since password change and only add users if days exeeds $days
 sub passwordAge {
   my %passwordAge;
   my $days = shift;
-  my @epochSeconds = `date +%s`;
-  my $epochDays = ($epochSeconds[0] / 86400);
+  my $epoch = round (`date +%s` / 86400);
   for my $i (0...$#users) {
     my @grepShadow = `grep $users[$i] /etc/shadow | cut -d: -f3`;
     chomp @grepShadow;
     if ( $grepShadow[0] ne "") {
-      if ( $grepShadow[0] > ($epochDays - $days)) {
-        @passwordAge{$users[$i]} = round($epochDays - $grepShadow[0]);
+      if ( $grepShadow[0] >= ($epoch - $days)) {
+        @passwordAge{$users[$i]} = "yes";
+      }
+      else {
+        @passwordAge{$users[$i]} = "no";
       }
     }
   }
-  return %passwordAge;
+  return \%passwordAge;
 }
 
 # Add users and their storage size to a hash if it exceeds $size
@@ -84,6 +86,6 @@ sub userStorage {
         $userStorage{$users[$i]}=$mebibyte;
     }
   }
-  return %userStorage;
+  return \%userStorage;
 }
 1;

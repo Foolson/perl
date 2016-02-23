@@ -6,7 +6,7 @@ use warnings;
 use strict;
 use List::Compare;
 
-sub network{
+sub network {
   my @query = split / /, shift;
   my @network;
   my @netstat = `netstat -plntu`;
@@ -22,18 +22,19 @@ sub network{
       }
       my $lc = List::Compare->new(\@query, \@match);
       if ( $lc->is_LsubsetR ) {
-        push @network, {
+        my %hash = (
           protocol         => "$match[0]",
           ipVersion        => "$match[5]",
           portNumber       => "$match[2]",
           listeningDevice  => "$match[1]",
           processId        => "$match[3]",
           processName      => "$match[4]"
-        };
+        );
+        push @network, \%hash;
       }
     }
   }
-  return @network;
+  return \@network;
 }
 sub serviceStatus {
   my $service = shift;
