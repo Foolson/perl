@@ -82,6 +82,7 @@ sub userStorage {
     my @du = `du -b $grepPasswd[0]` =~ m|(\d+)(?=\s+$grepPasswd[0]$)|g;
 
     my $mebibyte = round($du[0] / 1048576);
+    $size = 0 if !length $size; 
     if ( $mebibyte >= $size ) {
         $userStorage{$users[$i]}=$mebibyte;
     }

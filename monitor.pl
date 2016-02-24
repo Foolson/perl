@@ -4,9 +4,10 @@ use warnings;
 use strict;
 use userModule;
 use systemModule;
-use Data::Dumper;
 use Text::CSV;
 use MIME::Entity;
+use Email::Sender::Simple qw(sendmail);
+use Email::Sender::Transport::SMTP qw();
 ###
 # Subrutines
 ###
@@ -31,6 +32,21 @@ sub convertAoh {
     push @aoa, \@hash;
   }
   return @aoa;
+}
+sub email {
+  my $top;
+  my @header = split /;/, shift;
+  my @files = split /;/, shift;
+  $top = MIME::Entity->build(From     => "$header[0]",
+                             To       => "$header[1]",
+                             Subject  => "$header[2]",
+                             Boundary => "$header[3]",
+                             Type     => "multipart/mixed");
+  for my $i (0...$#files) {
+    $top->attach(Path     => "$files[$i]",
+                 Type     => "text/csv");
+  }
+  sendmail($top->stringify);
 }
 ###
 # Generate .csv-files
@@ -72,32 +88,6 @@ createCSV("/tmp/userData.csv",@userData);
 ###
 # Send E-Mail
 ###
-my $top;
-my $time = time();
-$top = MIME::Entity->build(From     => 'root@centos.local',
-                           To       => 'root@centos.local',
-                           Subject  => "taskC mail at epoch $time",
-                           Boundary => "==== taskC ==== epoch=$time ====",
-                           Type     => "multipart/mixed",
-                           Charset  => "us-ascii");
-
-$top->attach(Path     => "/tmp/tcp-ipv4.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-$top->attach(Path     => "/tmp/tcp-ipv6.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-$top->attach(Path     => "/tmp/udp-ipv4.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-$top->attach(Path     => "/tmp/udp-ipv6.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-$top->attach(Path     => "/tmp/serviceStatus.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-$top->attach(Path     => "/tmp/userData.csv",
-             Type     => "text/csv",
-             Encoding => "quoted-printable");
-
-$top->print;
+my $time = time;
+email("taskC\@localhost;d15johol\@localhost;taskC mail at $time;==== taskC ==== epoch=$time ====",
+      "/tmp/tcp-ipv4.csv;/tmp/tcp-ipv6.csv;/tmp/udp-ipv4.csv;/tmp/udp-ipv6.csv;/tmp/serviceStatus.csv;/tmp/userData.csv");
