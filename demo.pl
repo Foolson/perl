@@ -30,7 +30,7 @@ sub printHash {
 sub longestString {
   my @keys = @_;
   my $first = length($keys[0]);
-  my $longest;
+  my $longest = 0;
   for my $i (0...$#keys){
     my $current = length($keys[$i]);
     if ($current > $first){
