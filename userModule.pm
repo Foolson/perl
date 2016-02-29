@@ -15,7 +15,7 @@ use Math::Round;
 
 my $f;
 
-# Get min and max UID for regular users
+# Get min and max UID for regular users from the file login.defs
 $f = "/etc/login.defs";
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @UID;
@@ -46,7 +46,7 @@ close FH or die "Can't close $f: $!";
 my @users = @passwd;
 chomp @users;
 
-# Create hash with regular users as keys and their number of logins as values
+# Create a hash with regular users as keys and their number of logins as values
 sub userLogins {
   my %userLogins;
   for my $i (0 ... $#users) {
@@ -79,7 +79,6 @@ sub passwordAge {
 }
 
 # Add users and their storage size to a hash if it exceeds $size
-
 sub userStorage {
   my %userStorage;
   my $size = shift;
