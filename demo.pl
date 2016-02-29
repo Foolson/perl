@@ -1,4 +1,11 @@
 #!/usr/bin/perl
+################## METADATA ##################
+# NAME: Johan Olsson
+# USERNAME: d15johol
+# COURSE: IT341G
+# ASSIGNMENT: Task 5.1/5.2
+# DATE OF LAST CHANGE: 2016-02-29
+##############################################
 
 use warnings;
 use strict;

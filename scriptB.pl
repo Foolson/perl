@@ -3,8 +3,8 @@
 # NAME: Johan Olsson
 # USERNAME: d15johol
 # COURSE: IT341G
-# ASSIGNMENT: Script B
-# DATE OF LAST CHANGE: 2016-02-01
+# ASSIGNMENT: Task 4.2
+# DATE OF LAST CHANGE: 2016-02-29
 ##############################################
 
 use warnings;
@@ -15,10 +15,10 @@ my $exit = 0;
 
 while ( ! $exit ) {
   print "Input a number: ";
-  
+
   my $input = <STDIN>;
   chomp $input;
-  
+
   if ( $input =~ /^\d+$/ ) {
     if ( $input > 42 ) {
         print "Your number is greater than 42!\n";

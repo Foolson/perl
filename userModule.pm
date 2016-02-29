@@ -1,4 +1,11 @@
 #!/usr/bin/perl
+################## METADATA ##################
+# NAME: Johan Olsson
+# USERNAME: d15johol
+# COURSE: IT341G
+# ASSIGNMENT: Task 5.1
+# DATE OF LAST CHANGE: 2016-02-29
+##############################################
 
 package userModule;
 
@@ -82,7 +89,7 @@ sub userStorage {
     my @du = `du -b $grepPasswd[0]` =~ m|(\d+)(?=\s+$grepPasswd[0]$)|g;
 
     my $mebibyte = round($du[0] / 1048576);
-    $size = 0 if !length $size; 
+    $size = 0 if !length $size;
     if ( $mebibyte >= $size ) {
         $userStorage{$users[$i]}=$mebibyte;
     }

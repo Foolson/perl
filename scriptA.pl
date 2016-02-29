@@ -3,8 +3,8 @@
 # NAME: Johan Olsson
 # USERNAME: d15johol
 # COURSE: IT341G
-# ASSIGNMENT: Script A
-# DATE OF LAST CHANGE: 2016-02-01
+# ASSIGNMENT: Task 4.1
+# DATE OF LAST CHANGE: 2016-02-29
 ##############################################
 
 use warnings;
@@ -22,7 +22,7 @@ while ( ! $exit ) {
   my $input = <STDIN>;
   # Remove newline from the end of the input
   chomp $input;
-  
+
   # If the user enters anything but whitespaces (it can include whitespaces though) the program will print the input and loop back
   if ( $input =~ /\S/ ){
   print "$input\n";

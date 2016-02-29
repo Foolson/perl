@@ -3,8 +3,8 @@
 # NAME: Johan Olsson
 # USERNAME: d15johol
 # COURSE: IT341G
-# ASSIGNMENT: Script E
-# DATE OF LAST CHANGE: 2016-02-01
+# ASSIGNMENT: Task 4.5
+# DATE OF LAST CHANGE: 2016-02-29
 ##############################################
 
 use warnings;
