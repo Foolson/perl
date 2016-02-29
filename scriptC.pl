@@ -10,15 +10,19 @@
 use warnings;
 use strict;
 
+# Initiate variable for the filename
 my $f = "alphabet.txt";
 
+# Open the file and store it in the filehandle
 open FH, "<", "$f" or die "Can't open $f: $!";
 my @alphabet;
+# Push each line in the file into the array 'alphabet'
 while( my $line = <FH> ) {
     push @alphabet, $line;
 }
 close FH or die "Can't close $f: $!";
 
+# Print each element in alphabet
 for my $i (0..$#alphabet) {
     print "Letter number ".($i + 1)." is ".$alphabet[$i];
 }
