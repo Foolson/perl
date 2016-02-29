@@ -13,27 +13,32 @@ use userModule;
 use systemModule;
 use Data::Dumper;
 
+# Print hash sorted or not sorted
 sub printHash {
   my %hash = %{$_[0]};
   my $sortAfter = $_[1];
   my $longestString = longestString(keys %hash);
   my $padding = "%-$longestString"."s  %s\n";
+  # Print sorted hash after values
   if ( $sortAfter eq "values" ){
     foreach my $key (sort { $hash{$b} <=> $hash{$a} } keys %hash) {
         printf $padding, $key, "=>  $hash{$key}";
     }
   }
+  # Print sorted hash after keys
   elsif ( $sortAfter eq "keys" ){
     foreach my $key (sort {lc $a cmp lc $b} keys %hash) {
       printf $padding, $key, "=>  $hash{$key}";
     }
   }
+  # Print hash without sorting
   elsif ( $sortAfter eq "none" ){
     foreach my $key (keys %hash) {
       printf $padding, $key, "=>  $hash{$key}";
     }
   }
 }
+# Find the longest string in array
 sub longestString {
   my @keys = @_;
   my $first = length($keys[0]);
@@ -50,6 +55,8 @@ sub longestString {
   return $longest;
 }
 
+# Ask after MiB to print users who stored over that ammount
+# Also ask for what so sort after
 print '###'."\n";
 print '#'." User Storage"."\n";
 print '###'."\n";
@@ -60,6 +67,8 @@ print "Sort list after (keys,values,none): ";
 my $sortAfter = <STDIN>;
 chomp $sortAfter;
 printHash(userModule::userStorage($minSize),$sortAfter);
+
+# Ask for what so sort after and print usernames and ammount of logins
 print '###'."\n";
 print '#'." User Logins"."\n";
 print '###'."\n";
@@ -67,6 +76,9 @@ print "Sort list after (keys,values,none): ";
 $sortAfter = <STDIN>;
 chomp $sortAfter;
 printHash(userModule::userLogins(),$sortAfter);
+
+# Ask for ammount of days and print users and if they changed the password in those days
+# Also ask for what so sort after
 print '###'."\n";
 print '#'." User Password Age"."\n";
 print '###'."\n";
@@ -78,6 +90,7 @@ $sortAfter = <STDIN>;
 chomp $sortAfter;
 printHash(userModule::passwordAge($days),$sortAfter);
 
+# Ask to input a query for listening sockets and output the data
 print '###'."\n";
 print '#'." System Listening Sockets"."\n";
 print '###'."\n";
@@ -86,6 +99,7 @@ my $query = <STDIN>;
 chomp $query;
 print Dumper @{systemModule::network($query)};
 
+# Ask user to input service name and output it's status
 print '###'."\n";
 print '#'." System Service Status"."\n";
 print '###'."\n";

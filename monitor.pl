@@ -18,6 +18,7 @@ use Email::Sender::Transport::SMTP qw();
 ###
 # Subrutines
 ###
+# Create .csv from array with arrays
 sub createCSV {
   my $csv = Text::CSV->new ( { binary => 1 } ) or die "Cannot use CSV: ".Text::CSV->error_diag ();
   $csv->eol ("\r\n");
@@ -27,6 +28,7 @@ sub createCSV {
   $csv->print ($fh, $_) for @_;
   close $fh;
 }
+# Convert array of hashes to array of arrays
 sub convertAoh {
   my @query = split / /,shift;
   my @aoh = @_;
@@ -40,6 +42,7 @@ sub convertAoh {
   }
   return @aoa;
 }
+# Create email, attatch files and the send it 
 sub email {
   my $top;
   my @header = split /;/, shift;
