@@ -106,5 +106,5 @@ print '###'."\n";
 print "Query (Service name): ";
 $query = <STDIN>;
 chomp $query;
-my $status = systemModule::serviceStatus($query) ? "Running" : "Dead";
+my $status = systemModule::serviceStatus($query) ? "It\'s alive\!" : "He\'s dead, Jim...";
 print "$query"."  =>  ".$status."\n";
