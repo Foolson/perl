@@ -16,7 +16,7 @@ my $exit = 0;
 
 # While loop which holds the main part of the script, it will exit if the variable $exit is true
 while ( ! $exit ) {
-  # Tell the user to input som text
+  # Tell the user to input some text
   print "Input text: ";
   # Catch the users input
   my $input = <STDIN>;
